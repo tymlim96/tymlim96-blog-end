@@ -66,7 +66,8 @@ class BlogPost(db.Model):
     __tablename__ = "blog_posts"
     id = db.Column(db.Integer, primary_key=True)
 
-    author_id = db.Column(db.Integer)
+    # Foreign key is "User" table's primary key
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     author = relationship("User", back_populates="posts")
 
     # Comments table relationship (BlogPost table is parent)
@@ -84,10 +85,10 @@ class Comment(db.Model):
     __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text, nullable=False)
-    author_id = db.Column(db.Integer)
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     comment_author = relationship("User", back_populates="comments")
     # Relationship with BlogPost table (BlogPost table is parent)
-    post_id = db.Column(db.Integer)
+    post_id = db.Column(db.Integer, db.ForeignKey("blog_posts.id"))
     parent_post = relationship("BlogPost", back_populates="comments")
 
 
